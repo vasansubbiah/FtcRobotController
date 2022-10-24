@@ -53,10 +53,10 @@ public class SleeveDetect extends LinearOpMode
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-    int ID_TAG_OF_INTEREST_ZERO = 0; // Tag ID 18 from the 36h11 family
-    int ID_TAG_OF_INTEREST_ONE = 1; // Tag ID 18 from the 36h11 family
-    int ID_TAG_OF_INTEREST_TWO = 2; // Tag ID 18 from the 36h11 family
-    int ID_TAG_OF_INTEREST_THREE = 3; // Tag ID 18 from the 36h11 family
+    public static final int ID_TAG_OF_INTEREST_ZERO = 0; // Tag ID 0 from the 36h11 family
+    public static final int ID_TAG_OF_INTEREST_ONE = 1; // Tag ID 1 from the 36h11 family
+    public static final int ID_TAG_OF_INTEREST_TWO = 2; // Tag ID 2 from the 36h11 family
+    public static final int ID_TAG_OF_INTEREST_THREE = 3; // Tag ID 3 from the 36h11 family
 
     AprilTagDetection tagOfInterest = null;
 

@@ -23,22 +23,22 @@ public class prototypesTeleop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             y = gamepad1.right_stick_x;
-            x = gamepad1.right_stick_y;
+            x = gamepad1.left_stick_x;
             rx = gamepad1.left_stick_y;
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio, but only when
             // at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (-y + x + rx) / denominator;
-            double backLeftPower = (-y - x + rx) / denominator;
+            double frontLeftPower = (-y - x + rx) / denominator;
+            double backLeftPower = (-y + x + rx) / denominator;
             double frontRightPower = (-y - x - rx) / denominator;
             double backRightPower = (-y + x - rx) / denominator;
 
-            robot.frontLeft.setPower(frontLeftPower/3.0);
-            robot.backLeft.setPower(backLeftPower/3.0);
-            robot.frontRight.setPower(frontRightPower/3.0);
-            robot.backRight.setPower(backRightPower/3.0);
+            robot.frontLeft.setPower(frontLeftPower/2.0);
+            robot.backLeft.setPower(backLeftPower/2.0);
+            robot.frontRight.setPower(frontRightPower/2.0);
+            robot.backRight.setPower(backRightPower/2.0);
         }
     }
 }

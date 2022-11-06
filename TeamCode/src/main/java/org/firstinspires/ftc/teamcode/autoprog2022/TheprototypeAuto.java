@@ -30,6 +30,8 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.teamcode.DMHardwareTest;
+
 
 import java.util.ArrayList;
 
@@ -38,6 +40,7 @@ public class TheprototypeAuto extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    public DMHardwareTest robot = new DMHardwareTest(false);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -177,25 +180,28 @@ public class TheprototypeAuto extends LinearOpMode
         }
         else
         {
-            /*
-             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-             */
 
-            // e.g.
-            if(tagOfInterest.pose.x <= 20)
-            {
-                // do something
+
+
+
+            if(tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
+                robot.goLeft(1);
+                while (robot.getTime() <= 2) {
+                }
+                robot.setPowerOfAllMotorsTo(0.5);
             }
-            else if(tagOfInterest.pose.x >= 20 && tagOfInterest.pose.x <= 50)
-            {
-                // do something else
+            else  if(tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
+                robot.goLeft(0.5);
+                while (robot.getTime() <= 2) {
+                }
+                robot.setPowerOfAllMotorsTo(0.5);
             }
-            else if(tagOfInterest.pose.x >= 50)
-            {
-                // do something else
+            else if(tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
+                robot.goLeft(-0.5);
+                while (robot.getTime() <= 2) {
+                }
+                robot.setPowerOfAllMotorsTo(0.5);
             }
-            return;
-        }
 
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */

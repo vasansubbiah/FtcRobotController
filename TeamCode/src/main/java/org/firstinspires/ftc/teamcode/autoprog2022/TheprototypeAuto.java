@@ -23,6 +23,7 @@ package org.firstinspires.ftc.teamcode.autoprog2022;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.sleeveDetect.AprilTagDetectionPipeline;
@@ -55,6 +56,7 @@ public class TheprototypeAuto extends LinearOpMode
 
     // UNITS ARE METERS
     double tagsize = 0.166;
+
 
     public static final int ID_TAG_OF_INTEREST_ZERO = 0; // Tag ID 0 from the 36h11 family
     public static final int ID_TAG_OF_INTEREST_ONE = 1; // Tag ID 1 from the 36h11 family
@@ -178,32 +180,32 @@ public class TheprototypeAuto extends LinearOpMode
              */
             return;
         }
-        else
-        {
+        else {
+            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            robot.frontLeft.setTargetPosition(5000);
+            robot.frontRight.setTargetPosition(5000);
+            robot.backLeft.setTargetPosition(5000);
+            robot.backRight.setTargetPosition(5000);
 
 
+            if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
+                robot.goLeft(0.3);
+                robot.setPowerOfAllMotorsTo(0.3);
+            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
+                robot.goLeft(0.3);
+                robot.setPowerOfAllMotorsTo(0.3);
+                robot.goLeft(-0.3);
 
-
-            if(tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
-                robot.goLeft(1);
-                while (robot.getTime() <= 2) {
-                }
-                robot.setPowerOfAllMotorsTo(0.5);
+            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
+                robot.goLeft(-0.3);
+                robot.setPowerOfAllMotorsTo(0.3);
             }
-            else  if(tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
-                robot.goLeft(0.5);
-                while (robot.getTime() <= 2) {
-                }
-                robot.setPowerOfAllMotorsTo(0.5);
-            }
-            else if(tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
-                robot.goLeft(-0.5);
-                while (robot.getTime() <= 2) {
-                }
-                robot.setPowerOfAllMotorsTo(0.5);
-            }
-
-
+            return;
+        }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         //while (opModeIsActive()) {sleep(20);}
     }

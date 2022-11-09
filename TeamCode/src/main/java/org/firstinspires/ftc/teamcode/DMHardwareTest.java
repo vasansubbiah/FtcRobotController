@@ -13,6 +13,9 @@ public class DMHardwareTest {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public DcMotor slidemotorleft;
+    public DcMotor slidemotorright;
+
 
     public boolean runThisWithEncoders;
 
@@ -31,11 +34,15 @@ public class DMHardwareTest {
         frontRight = hwMap.dcMotor.get("frntRT");
         backLeft = hwMap.dcMotor.get("bckLF");
         backRight = hwMap.dcMotor.get("bckRT");
+        slidemotorright = hwMap.dcMotor.get("slidemotorleft");
+        slidemotorright = hwMap.dcMotor.get("slidemotorright");
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            slidemotorright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            slidemotorleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
 

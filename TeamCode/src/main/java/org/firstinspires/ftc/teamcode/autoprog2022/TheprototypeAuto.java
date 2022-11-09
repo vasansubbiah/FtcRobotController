@@ -41,7 +41,7 @@ public class TheprototypeAuto extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
-    public DMHardwareTest robot = new DMHardwareTest(false);
+    public DMHardwareTest robot = new DMHardwareTest(true);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -94,6 +94,7 @@ public class TheprototypeAuto extends LinearOpMode
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
+
         while (!isStarted() && !isStopRequested())
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -186,23 +187,85 @@ public class TheprototypeAuto extends LinearOpMode
             robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            robot.frontLeft.setTargetPosition(5000);
-            robot.frontRight.setTargetPosition(5000);
-            robot.backLeft.setTargetPosition(5000);
-            robot.backRight.setTargetPosition(5000);
-
-
             if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
-                robot.goLeft(0.3);
-                robot.setPowerOfAllMotorsTo(0.3);
-            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
-                robot.goLeft(0.3);
-                robot.setPowerOfAllMotorsTo(0.3);
-                robot.goLeft(-0.3);
+                //robot.goLeft(0.3);
+                //robot.setPowerOfAllMotorsTo(0.3);
+                robot.frontLeft.setTargetPosition(1000);
+                robot.frontRight.setTargetPosition(-1000);
+                robot.backLeft.setTargetPosition(1000);
+                robot.backRight.setTargetPosition(-1000);
 
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                robot.frontLeft.setTargetPosition(-500);
+                robot.frontRight.setTargetPosition(-500);
+                robot.backLeft.setTargetPosition(500);
+                robot.backRight.setTargetPosition(500);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
+               // robot.goLeft(0.3);
+                //robot.setPowerOfAllMotorsTo(0.3);
+                //robot.goLeft(-0.3);
+                robot.frontLeft.setTargetPosition(500);
+                robot.frontRight.setTargetPosition(500);
+                robot.backLeft.setTargetPosition(-500);
+                robot.backRight.setTargetPosition(-500);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                robot.frontLeft.setTargetPosition(1000);
+                robot.frontRight.setTargetPosition(-1000);
+                robot.backLeft.setTargetPosition(1000);
+                robot.backRight.setTargetPosition(-1000);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                robot.frontLeft.setTargetPosition(-500);
+                robot.frontRight.setTargetPosition(-500);
+                robot.backLeft.setTargetPosition(500);
+                robot.backRight.setTargetPosition(500);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
-                robot.goLeft(-0.3);
-                robot.setPowerOfAllMotorsTo(0.3);
+                //robot.goLeft(-0.3);
+                //robot.setPowerOfAllMotorsTo(0.3);
+                robot.frontLeft.setTargetPosition(1000);
+                robot.frontRight.setTargetPosition(-1000);
+                robot.backLeft.setTargetPosition(1000);
+                robot.backRight.setTargetPosition(-1000);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                robot.frontLeft.setTargetPosition(500);
+                robot.frontRight.setTargetPosition(500);
+                robot.backLeft.setTargetPosition(-500);
+                robot.backRight.setTargetPosition(-500);
+
+                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             }
             return;
         }

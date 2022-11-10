@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.autoprog2022;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.sleeveDetect.AprilTagDetectionPipeline;
@@ -31,7 +32,7 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.DMHardwareTest;
+//import org.firstinspires.ftc.teamcode.DMHardwareTest;
 
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class TheprototypeAuto extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
-    public DMHardwareTest robot = new DMHardwareTest(true);
+    //public DMHardwareTest robot = new DMHardwareTest(false);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -63,7 +64,13 @@ public class TheprototypeAuto extends LinearOpMode
     public static final int ID_TAG_OF_INTEREST_TWO = 2; // Tag ID 2 from the 36h11 family
     public static final int ID_TAG_OF_INTEREST_THREE = 3; // Tag ID 3 from the 36h11 family
 
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+
     AprilTagDetection tagOfInterest = null;
+    public ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode()
@@ -71,6 +78,11 @@ public class TheprototypeAuto extends LinearOpMode
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+
+        frontLeft = hardwareMap.dcMotor.get("frntLF");
+        frontRight = hardwareMap.dcMotor.get("frntRT");
+        backLeft = hardwareMap.dcMotor.get("bckLF");
+        backRight = hardwareMap.dcMotor.get("bckRT");
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -182,93 +194,209 @@ public class TheprototypeAuto extends LinearOpMode
             return;
         }
         else {
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
+            if (tagOfInterest.id == ID_TAG_OF_INTEREST_ZERO) {
+                telemetry.addLine(String.format("\ninside if tag one"));
+                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+                telemetry.update();
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                robot.frontLeft.setTargetPosition(500);
-                robot.frontRight.setTargetPosition(500);
-                robot.backLeft.setTargetPosition(-500);
-                robot.backRight.setTargetPosition(-500);
+                frontLeft.setTargetPosition(1100);
+                frontRight.setTargetPosition(1100);
+                backLeft.setTargetPosition(-1100);
+                backRight.setTargetPosition(-1100);
 
-                robot.setPowerOfAllMotorsTo(0.3);
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                //going forward
-                /*robot.frontLeft.setTargetPosition(500);
-                robot.frontRight.setTargetPosition(-500);
-                robot.backLeft.setTargetPosition(500);
-                robot.backRight.setTargetPosition(-500);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
+                setPowerOfAllMotorsTo(0.3);
 
-            } /*else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
-                //robot.setPowerOfAllMotorsTo(0.3);
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
 
-                robot.frontLeft.setTargetPosition(500);
-                robot.frontRight.setTargetPosition(500);
-                robot.backLeft.setTargetPosition(-500);
-                robot.backRight.setTargetPosition(-500);
+                }
+                setPowerOfAllMotorsTo(0.0);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                robot.frontLeft.setTargetPosition(1000);
-                robot.frontRight.setTargetPosition(-1000);
-                robot.backLeft.setTargetPosition(1000);
-                robot.backRight.setTargetPosition(-1000);
+                frontLeft.setTargetPosition(-1100);
+                frontRight.setTargetPosition(1100);
+                backLeft.setTargetPosition(-1100);
+                backRight.setTargetPosition(1100);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                robot.frontLeft.setTargetPosition(-500);
-                robot.frontRight.setTargetPosition(-500);
-                robot.backLeft.setTargetPosition(500);
-                robot.backRight.setTargetPosition(500);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
-                robot.setPowerOfAllMotorsTo(0.3);
 
-                robot.frontLeft.setTargetPosition(-500);
-                robot.frontRight.setTargetPosition(-500);
-                robot.backLeft.setTargetPosition(500);
-                robot.backRight.setTargetPosition(500);
+                setPowerOfAllMotorsTo(0.3);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
 
-                robot.frontLeft.setTargetPosition(500);
-                robot.frontRight.setTargetPosition(-500);
-                robot.backLeft.setTargetPosition(500);
-                robot.backRight.setTargetPosition(-500);
+                }
+                setPowerOfAllMotorsTo(0.0);
+            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
+                telemetry.addLine(String.format("\ninside if tag one"));
+                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+                telemetry.update();
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontLeft.setTargetPosition(1100);
+                frontRight.setTargetPosition(1100);
+                backLeft.setTargetPosition(-1100);
+                backRight.setTargetPosition(-1100);
 
-            }*/
-            return;
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeft.setTargetPosition(-2100);
+                frontRight.setTargetPosition(2100);
+                backLeft.setTargetPosition(-2100);
+                backRight.setTargetPosition(2100);
+
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeft.setTargetPosition(-1100);
+                frontRight.setTargetPosition(-1100);
+                backLeft.setTargetPosition(1100);
+                backRight.setTargetPosition(1100);
+
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
+                telemetry.addLine(String.format("\ninside if tag one"));
+                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+                telemetry.update();
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeft.setTargetPosition(1100);
+                frontRight.setTargetPosition(1100);
+                backLeft.setTargetPosition(-1100);
+                backRight.setTargetPosition(-1100);
+
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeft.setTargetPosition(-2100);
+                frontRight.setTargetPosition(2100);
+                backLeft.setTargetPosition(-2100);
+                backRight.setTargetPosition(2100);
+
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontLeft.setTargetPosition(-2120);
+                frontRight.setTargetPosition(-2120);
+                backLeft.setTargetPosition(2120);
+                backRight.setTargetPosition(2120);
+
+                frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+                setPowerOfAllMotorsTo(0.3);
+
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+
+                }
+                setPowerOfAllMotorsTo(0.0);
+            }
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         //while (opModeIsActive()) {sleep(20);}
@@ -283,5 +411,13 @@ public class TheprototypeAuto extends LinearOpMode
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+    }
+
+    public void setPowerOfAllMotorsTo(double speed) {
+        //We only have two motors...
+        frontLeft.setPower(speed);
+        frontRight.setPower(speed);
+        backLeft.setPower(speed);
+        backRight.setPower(speed);
     }
 }

@@ -34,7 +34,7 @@ public class DMHardwareTest {
         frontRight = hwMap.dcMotor.get("frntRT");
         backLeft = hwMap.dcMotor.get("bckLF");
         backRight = hwMap.dcMotor.get("bckRT");
-        slidemotorright = hwMap.dcMotor.get("slidemotorleft");
+        slidemotorleft = hwMap.dcMotor.get("slidemotorleft");
         slidemotorright = hwMap.dcMotor.get("slidemotorright");
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

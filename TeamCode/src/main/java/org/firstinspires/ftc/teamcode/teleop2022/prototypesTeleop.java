@@ -82,7 +82,7 @@ public class prototypesTeleop extends LinearOpMode {
             }
             else if (linear_slide_down) {
                 newposLeft = curposLeft - (ticksPerRev * rev);
-                newposRight = curposRight - (ticksPerRev * rev);
+                newposRight = curposRight + (ticksPerRev * rev);
 
                 robot.slidemotorleft.setTargetPosition(newposLeft);
                 robot.slidemotorright.setTargetPosition(newposRight);
@@ -93,7 +93,7 @@ public class prototypesTeleop extends LinearOpMode {
             }
 
 
-            while (robot.slidemotorleft.isBusy() || robot.slidemotorleft.isBusy() ){
+            while (robot.slidemotorleft.isBusy() || robot.slidemotorright.isBusy()){
                 curposLeft = robot.slidemotorleft.getCurrentPosition();
                 curposRight = robot.slidemotorright.getCurrentPosition();
                 telemetry.addLine(String.format("\n slide modtor encoder Left position = %d , Right position = %d", curposLeft, curposRight));

@@ -112,21 +112,21 @@ public class prototypesTeleop extends LinearOpMode {
             }  else if ( linear_slide_up_left) {
                 newposLeft = Math.min((curposLeft + (ticksPerRev * 1)),MAXSLIDEPOS);
                 robot.slidemotorleft.setTargetPosition(newposLeft);
-                robot.slidemotorleft.setPower(power);
+                robot.slidemotorleft.setPower(0.5);
                 robot.slidemotorleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (linear_slide_up_right) {
                 newposRight = Math.max((curposRight - (ticksPerRev * 1)),-MAXSLIDEPOS);
                 robot.slidemotorright.setTargetPosition(newposRight);
-                robot.slidemotorright.setPower(power);
+                robot.slidemotorright.setPower(0.5);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (linear_slide_down_left) {
                 newposLeft = Math.max((curposLeft - (ticksPerRev * 1)), 0);
                 robot.slidemotorleft.setTargetPosition(newposLeft);
-                robot.slidemotorleft.setPower(power);
+                robot.slidemotorleft.setPower(0.5);
             } else if (linear_slide_down_right) {
                 newposRight =Math.min((curposRight + (ticksPerRev * 1)),0);
                 robot.slidemotorright.setTargetPosition(newposRight);
-                robot.slidemotorright.setPower(power);
+                robot.slidemotorright.setPower(0.5);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 

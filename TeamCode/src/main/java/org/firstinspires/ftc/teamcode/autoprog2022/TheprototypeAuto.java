@@ -188,32 +188,33 @@ public class TheprototypeAuto extends LinearOpMode
             robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
-                //robot.goLeft(0.3);
-                //robot.setPowerOfAllMotorsTo(0.3);
-                robot.frontLeft.setTargetPosition(1000);
-                robot.frontRight.setTargetPosition(-1000);
-                robot.backLeft.setTargetPosition(1000);
-                robot.backRight.setTargetPosition(-1000);
+
+                robot.frontLeft.setTargetPosition(500);
+                robot.frontRight.setTargetPosition(500);
+                robot.backLeft.setTargetPosition(-500);
+                robot.backRight.setTargetPosition(-500);
+
+                robot.setPowerOfAllMotorsTo(0.3);
 
                 robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                robot.frontLeft.setTargetPosition(-500);
+                //going forward
+                /*robot.frontLeft.setTargetPosition(500);
                 robot.frontRight.setTargetPosition(-500);
                 robot.backLeft.setTargetPosition(500);
-                robot.backRight.setTargetPosition(500);
+                robot.backRight.setTargetPosition(-500);
 
                 robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
-            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
-               // robot.goLeft(0.3);
+            } /*else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
                 //robot.setPowerOfAllMotorsTo(0.3);
-                //robot.goLeft(-0.3);
+
                 robot.frontLeft.setTargetPosition(500);
                 robot.frontRight.setTargetPosition(500);
                 robot.backLeft.setTargetPosition(-500);
@@ -244,12 +245,12 @@ public class TheprototypeAuto extends LinearOpMode
                 robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_THREE) {
-                //robot.goLeft(-0.3);
-                //robot.setPowerOfAllMotorsTo(0.3);
-                robot.frontLeft.setTargetPosition(1000);
-                robot.frontRight.setTargetPosition(-1000);
-                robot.backLeft.setTargetPosition(1000);
-                robot.backRight.setTargetPosition(-1000);
+                robot.setPowerOfAllMotorsTo(0.3);
+
+                robot.frontLeft.setTargetPosition(-500);
+                robot.frontRight.setTargetPosition(-500);
+                robot.backLeft.setTargetPosition(500);
+                robot.backRight.setTargetPosition(500);
 
                 robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -257,8 +258,8 @@ public class TheprototypeAuto extends LinearOpMode
                 robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 robot.frontLeft.setTargetPosition(500);
-                robot.frontRight.setTargetPosition(500);
-                robot.backLeft.setTargetPosition(-500);
+                robot.frontRight.setTargetPosition(-500);
+                robot.backLeft.setTargetPosition(500);
                 robot.backRight.setTargetPosition(-500);
 
                 robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -266,7 +267,7 @@ public class TheprototypeAuto extends LinearOpMode
                 robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            }
+            }*/
             return;
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */

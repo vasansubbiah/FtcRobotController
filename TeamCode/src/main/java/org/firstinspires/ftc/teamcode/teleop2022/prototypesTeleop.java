@@ -19,6 +19,11 @@ public class prototypesTeleop extends LinearOpMode {
         double rx;
         boolean linear_slide_up;
         boolean linear_slide_down;
+        boolean linear_slide_down_left;
+        boolean linear_slide_up_left;
+        boolean linear_slide_down_right;
+        boolean linear_slide_up_right;
+
         int curposLeft;
         int curposRight;
         int newposLeft = 0;
@@ -42,6 +47,11 @@ public class prototypesTeleop extends LinearOpMode {
             rx = gamepad1.left_stick_y;
             linear_slide_up = gamepad1.dpad_up;
             linear_slide_down = gamepad1.dpad_down;
+
+            linear_slide_up_left = gamepad1.x;
+            linear_slide_down_left = gamepad1.a;
+            linear_slide_up_right = gamepad1.y;
+            linear_slide_down_right = gamepad1.b;
 
 
 
@@ -99,10 +109,29 @@ public class prototypesTeleop extends LinearOpMode {
                 robot.slidemotorright.setPower(power);
                 robot.slidemotorleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }  else if ( linear_slide_up_left) {
+                newposLeft = Math.min((curposLeft + (ticksPerRev * 1)),MAXSLIDEPOS);
+                robot.slidemotorleft.setTargetPosition(newposLeft);
+                robot.slidemotorleft.setPower(power);
+                robot.slidemotorleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (linear_slide_up_right) {
+                newposRight = Math.max((curposRight - (ticksPerRev * 1)),-MAXSLIDEPOS);
+                robot.slidemotorright.setTargetPosition(newposRight);
+                robot.slidemotorright.setPower(power);
+                robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (linear_slide_down_left) {
+                newposLeft = Math.max((curposLeft - (ticksPerRev * 1)), 0);
+                robot.slidemotorleft.setTargetPosition(newposLeft);
+                robot.slidemotorleft.setPower(power);
+            } else if (linear_slide_down_right) {
+                newposRight =Math.min((curposRight + (ticksPerRev * 1)),0);
+                robot.slidemotorright.setTargetPosition(newposRight);
+                robot.slidemotorright.setPower(power);
+                robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
 
-            while (robot.slidemotorleft.isBusy() || robot.slidemotorright.isBusy()){
+                while (robot.slidemotorleft.isBusy() || robot.slidemotorright.isBusy()){
                 curposLeft = robot.slidemotorleft.getCurrentPosition();
                 curposRight = robot.slidemotorright.getCurrentPosition();
                 telemetry.addLine(String.format("\n slide motor encoder Left position = %d , Right position = %d", curposLeft, curposRight));

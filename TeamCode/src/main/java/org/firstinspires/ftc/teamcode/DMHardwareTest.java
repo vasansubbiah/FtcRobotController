@@ -16,7 +16,7 @@ public class DMHardwareTest {
     public DcMotor slidemotorright;
     public Servo   LeftClaw;
     public Servo   RightClaw;
-    double servo_power = 0.4;
+    double servo_power = 0.2;
 
     public boolean runThisWithEncoders;
 
@@ -39,9 +39,9 @@ public class DMHardwareTest {
         slidemotorleft = hwMap.dcMotor.get("slidemotorleft");
         slidemotorright = hwMap.dcMotor.get("slidemotorright");
         LeftClaw  = hwMap.get(Servo.class,"left_hand");
-        LeftClaw.setPosition(servo_power);
+     //   LeftClaw.setPosition(servo_power);
         RightClaw  = hwMap.get(Servo.class, "right_hand");
-        RightClaw.setPosition(servo_power);
+       // RightClaw.setPosition(servo_power);
 
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

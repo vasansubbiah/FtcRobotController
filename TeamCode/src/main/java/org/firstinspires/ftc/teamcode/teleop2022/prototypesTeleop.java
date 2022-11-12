@@ -34,6 +34,7 @@ public class prototypesTeleop extends LinearOpMode {
         int rev = 1;
 
         boolean ClawOn=false;
+        boolean protect = false;
         double clawOffsetL = 1;
         double clawOffsetR = 1;
         double servo_power = 0.5;
@@ -62,6 +63,7 @@ public class prototypesTeleop extends LinearOpMode {
             linear_slide_down_left = gamepad2.a;
             linear_slide_up_right = gamepad2.y;
             linear_slide_down_right = gamepad2.b;
+            protect = gamepad2.start;
 
 
 
@@ -87,8 +89,8 @@ public class prototypesTeleop extends LinearOpMode {
             curposLeft = robot.slidemotorleft.getCurrentPosition();
             curposRight = robot.slidemotorright.getCurrentPosition();
 
-            telemetry.addLine(String.format("\nIn SlideControl motor encoder position left = %d right = %d", curposLeft, curposRight));
-            telemetry.update();
+            //telemetry.addLine(String.format("\nIn SlideControl motor encoder position left = %d right = %d", curposLeft, curposRight));
+            //telemetry.update();
             // We need to move one motor from 0 to MAX and the other from 0 to -MAX
 
             if (linear_slide_up) {
@@ -103,15 +105,19 @@ public class prototypesTeleop extends LinearOpMode {
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else if (linear_slide_down) {
+                if(protect) {
+                    newposLeft = Math.max((curposLeft - (ticksPerRev * rev)), 0);
+                } else {
+                    newposLeft = (curposLeft - (ticksPerRev * rev));
+                }
 
-
-                newposLeft = Math.max((curposLeft - (ticksPerRev * rev)),0);
                 // left motor is going from 0 to MAX and from MAX to 0. When going down , we never want to go below 0.
                 // So we choose max of current position and zero. If the motor undeshoots and goes negative, it will still
                 // saturate to zero
                 // The right motor is going the opposite direction. From 0 to -MAX when going up and -MAX to 0 when going down.
                 // If it overshoots, the value is positive. We compare with zero and choose the min value to saturate
-                newposRight =Math.min((curposRight + (ticksPerRev * rev)),0);
+                //newposRight =Math.min((curposRight + (ticksPerRev * rev)),0);
+                newposRight =(curposRight + (ticksPerRev * rev));
 
                 robot.slidemotorleft.setTargetPosition(newposLeft);
                 robot.slidemotorright.setTargetPosition(newposRight);
@@ -169,6 +175,9 @@ public class prototypesTeleop extends LinearOpMode {
 
 
             // Send telemetry message to signify robot running;
+
+            telemetry.addData("Motor Encoder Left = %d", curposLeft);
+            telemetry.addData("Motor Encoder right = %d", curposRight);
             telemetry.addData("left_clawoffset",  "Offset = %.2f", clawOffsetL);
             telemetry.addData("left_position","offset = %.6f", robot.LeftClaw.getPosition());
             telemetry.addData("right_clawoffset",  "Offset = %.3f", clawOffsetR);

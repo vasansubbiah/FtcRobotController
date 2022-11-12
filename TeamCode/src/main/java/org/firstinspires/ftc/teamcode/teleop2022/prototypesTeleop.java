@@ -28,7 +28,7 @@ public class prototypesTeleop extends LinearOpMode {
         int curposRight;
         int newposLeft = 0;
         int newposRight =0;
-        int ticksPerRev = 240;  // 1 revolution
+        int ticksPerRev = 120;  // 1/2 revolution
         double power = 0.7;     // Adjust the power of the slide of the power
         int MAXSLIDEPOS = 1500;  // Adjust this value
         int rev = 1;
@@ -120,21 +120,25 @@ public class prototypesTeleop extends LinearOpMode {
                 robot.slidemotorleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }  else if ( linear_slide_up_left) {
-                newposLeft = Math.min((curposLeft + (ticksPerRev * 1)),MAXSLIDEPOS);
+                //newposLeft = Math.min((curposLeft + (ticksPerRev * 1)),MAXSLIDEPOS);
+                newposLeft = (curposLeft + (ticksPerRev * 1));
                 robot.slidemotorleft.setTargetPosition(newposLeft);
                 robot.slidemotorleft.setPower(0.5);
                 robot.slidemotorleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (linear_slide_up_right) {
-                newposRight = Math.max((curposRight - (ticksPerRev * 1)),-MAXSLIDEPOS);
+                //newposRight = Math.max((curposRight - (ticksPerRev * 1)),-MAXSLIDEPOS);
+                newposRight = (curposRight - (ticksPerRev * 1));
                 robot.slidemotorright.setTargetPosition(newposRight);
                 robot.slidemotorright.setPower(0.5);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (linear_slide_down_left) {
-                newposLeft = Math.max((curposLeft - (ticksPerRev * 1)), 0);
+                //newposLeft = Math.max((curposLeft - (ticksPerRev * 1)), 0);
+                newposLeft = (curposLeft - (ticksPerRev * 1));
                 robot.slidemotorleft.setTargetPosition(newposLeft);
                 robot.slidemotorleft.setPower(0.5);
             } else if (linear_slide_down_right) {
-                newposRight =Math.min((curposRight + (ticksPerRev * 1)),0);
+                //newposRight =Math.min((curposRight + (ticksPerRev * 1)),0);
+                newposRight =(curposRight + (ticksPerRev * 1));
                 robot.slidemotorright.setTargetPosition(newposRight);
                 robot.slidemotorright.setPower(0.5);
                 robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);

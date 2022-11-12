@@ -55,13 +55,13 @@ public class prototypesTeleop extends LinearOpMode {
             y = gamepad1.right_stick_x;
             x = gamepad1.left_stick_x;
             rx = gamepad1.left_stick_y;
-            linear_slide_up = gamepad1.dpad_up;
-            linear_slide_down = gamepad1.dpad_down;
+            linear_slide_up = gamepad2.dpad_up;
+            linear_slide_down = gamepad2.dpad_down;
 
-            linear_slide_up_left = gamepad1.x;
-            linear_slide_down_left = gamepad1.a;
-            linear_slide_up_right = gamepad1.y;
-            linear_slide_down_right = gamepad1.b;
+            linear_slide_up_left = gamepad2.x;
+            linear_slide_down_left = gamepad2.a;
+            linear_slide_up_right = gamepad2.y;
+            linear_slide_down_right = gamepad2.b;
 
 
 
@@ -161,7 +161,7 @@ public class prototypesTeleop extends LinearOpMode {
             clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
             clawOffsetR = Range.clip(clawOffsetR, 0.1, 0.4);
             robot.LeftClaw.setPosition(clawOffsetL);
-            robot.RightClaw.setPosition(clawOffsetR); 
+            robot.RightClaw.setPosition(clawOffsetR);
 
 
             // Send telemetry message to signify robot running;

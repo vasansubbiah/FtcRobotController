@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 public class DMHardwareTest {
 
@@ -15,7 +14,9 @@ public class DMHardwareTest {
     public DcMotor backRight;
     public DcMotor slidemotorleft;
     public DcMotor slidemotorright;
-
+    public Servo   LeftClaw;
+    public Servo   RightClaw;
+    double servo_power = 0.4;
 
     public boolean runThisWithEncoders;
 
@@ -36,6 +37,11 @@ public class DMHardwareTest {
         backRight = hwMap.dcMotor.get("bckRT");
         slidemotorleft = hwMap.dcMotor.get("slidemotorleft");
         slidemotorright = hwMap.dcMotor.get("slidemotorright");
+        LeftClaw  = hwMap.get(Servo.class,"left_hand");
+        LeftClaw.setPosition(servo_power);
+        RightClaw  = hwMap.get(Servo.class, "right_hand");
+        RightClaw.setPosition(servo_power);
+
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

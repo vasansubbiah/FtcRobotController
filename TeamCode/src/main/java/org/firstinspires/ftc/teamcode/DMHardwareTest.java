@@ -20,6 +20,7 @@ public class DMHardwareTest {
 
     public boolean runThisWithEncoders;
 
+
     public HardwareMap hwMap;
     public ElapsedTime timer = new ElapsedTime();
 

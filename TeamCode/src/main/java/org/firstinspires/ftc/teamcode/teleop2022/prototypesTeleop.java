@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop2022;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.DMHardwareTest;
 
@@ -32,6 +32,16 @@ public class prototypesTeleop extends LinearOpMode {
         double power = 0.7;     // Adjust the power of the slide of the power
         int MAXSLIDEPOS = 1500;  // Adjust this value
         int rev = 1;
+
+        boolean ClawOn=false;
+        double clawOffsetL = 1;
+        double clawOffsetR = 1;
+        double servo_power = 0.5;
+        double CLAW_SPEED = 0.05;                 // sets rate to move servo
+        double  MIN_POSITION = 0.2;
+        double MIN_POSITIONR=0.1;
+        double MAX_POSITION = 0.5;
+        double MAX_POSITIONL = 0.7;
 
         robot.initTeleOpIMU(hardwareMap, bk);
         // Wait for the game to start (driver presses PLAY)
@@ -131,12 +141,35 @@ public class prototypesTeleop extends LinearOpMode {
             }
 
 
-                while (robot.slidemotorleft.isBusy() || robot.slidemotorright.isBusy()){
+            while (robot.slidemotorleft.isBusy() || robot.slidemotorright.isBusy()){
                 curposLeft = robot.slidemotorleft.getCurrentPosition();
                 curposRight = robot.slidemotorright.getCurrentPosition();
                 telemetry.addLine(String.format("\n slide motor encoder Left position = %d , Right position = %d", curposLeft, curposRight));
                 telemetry.update();
             }
+            // Use gamepad2 left & right Bumpers to open and close the claw
+            if (gamepad2.right_bumper && clawOffsetL>=MIN_POSITION && clawOffsetR<=MAX_POSITION)
+            {
+                clawOffsetL -= CLAW_SPEED;
+                clawOffsetR += CLAW_SPEED;
+            }
+            if (gamepad2.left_bumper && clawOffsetL<=MAX_POSITIONL && clawOffsetR>=MIN_POSITIONR)
+            {
+                clawOffsetL += CLAW_SPEED;
+                clawOffsetR -= CLAW_SPEED;
+            }
+            clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
+            clawOffsetR = Range.clip(clawOffsetR, 0.1, 0.4);
+            robot.LeftClaw.setPosition(clawOffsetL);
+            robot.RightClaw.setPosition(clawOffsetR); 
+
+
+            // Send telemetry message to signify robot running;
+            telemetry.addData("left_clawoffset",  "Offset = %.2f", clawOffsetL);
+            telemetry.addData("left_position","offset = %.6f", robot.LeftClaw.getPosition());
+            telemetry.addData("right_clawoffset",  "Offset = %.3f", clawOffsetR);
+            telemetry.addData("right_position","offset = %.7f", robot.RightClaw.getPosition());
+            telemetry.update();
 
         }
     }

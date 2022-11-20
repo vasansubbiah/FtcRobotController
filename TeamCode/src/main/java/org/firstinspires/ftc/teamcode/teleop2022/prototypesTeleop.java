@@ -10,13 +10,10 @@ import org.firstinspires.ftc.teamcode.DMHardwareTest;
 @TeleOp(name="prototypesTeleop", group="prototypes")
 public class prototypesTeleop extends LinearOpMode {
     public DMHardwareTest robot = new DMHardwareTest(true);
-    boolean bk =  true;
+    boolean applyBreak =  true;
 
     @Override
     public void runOpMode() {
-        double y;
-        double x;
-        double rx;
         boolean linear_slide_up;
         boolean linear_slide_down;
         boolean linear_slide_down_left;
@@ -44,18 +41,18 @@ public class prototypesTeleop extends LinearOpMode {
         double MAX_POSITION = 0.5;
         double MAX_POSITIONL = 0.7;
 
-        robot.initTeleOpIMU(hardwareMap, bk);
+        Thread  driveThread = new DriveThread();
+
+        robot.initTeleOpIMU(hardwareMap, applyBreak);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         robot.slidemotorleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.slidemotorright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        driveThread.start();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            y = gamepad1.right_stick_x;
-            x = gamepad1.left_stick_x;
-            rx = gamepad1.left_stick_y;
             linear_slide_up = gamepad2.dpad_up;
             linear_slide_down = gamepad2.dpad_down;
 
@@ -64,24 +61,6 @@ public class prototypesTeleop extends LinearOpMode {
             linear_slide_up_right = gamepad2.y;
             linear_slide_down_right = gamepad2.b;
             protect = gamepad2.start;
-
-
-
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio, but only when
-            // at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (-y - x + rx) / denominator;
-            double backLeftPower = (-y + x + rx) / denominator;
-            double frontRightPower = (-y - x - rx) / denominator;
-            double backRightPower = (-y + x - rx) / denominator;
-
-
-            robot.frontLeft.setPower(frontLeftPower/2.0);
-            robot.backLeft.setPower(backLeftPower/2.0);
-            robot.frontRight.setPower(frontRightPower/2.0);
-            robot.backRight.setPower(backRightPower/2.0);
-
 
             //////////////////////////////////////////////////////////////////////////////////////
             // Slide motor Code
@@ -183,6 +162,48 @@ public class prototypesTeleop extends LinearOpMode {
             telemetry.addData("right_clawoffset",  "Offset = %.3f", clawOffsetR);
             telemetry.addData("right_position","offset = %.7f", robot.RightClaw.getPosition());
             telemetry.update();
+        }
+        driveThread.interrupt();
+    }
+
+    private class DriveThread extends Thread {
+        double y;
+        double x;
+        double rx;
+
+        public DriveThread() {
+            this.setName("DriveThread");
+        }
+
+        // called when tread.start is called. thread stays in loop to do what it does until exit is
+        // signaled by main code calling thread.interrupt.
+        @Override
+        public void run() {
+            try {
+                while (!isInterrupted()) {
+                    y = gamepad1.right_stick_x;
+                    x = gamepad1.left_stick_x;
+                    rx = gamepad1.left_stick_y;
+
+                    // Denominator is the largest motor power (absolute value) or 1
+                    // This ensures all the powers maintain the same ratio, but only when
+                    // at least one is out of the range [-1, 1]
+                    double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+                    double frontLeftPower = (-y - x + rx) / denominator;
+                    double backLeftPower = (-y + x + rx) / denominator;
+                    double frontRightPower = (-y - x - rx) / denominator;
+                    double backRightPower = (-y + x - rx) / denominator;
+
+                    robot.frontLeft.setPower(frontLeftPower/2.0);
+                    robot.backLeft.setPower(backLeftPower/2.0);
+                    robot.frontRight.setPower(frontRightPower/2.0);
+                    robot.backRight.setPower(backRightPower/2.0);
+
+                    idle();
+                }
+            } catch (Exception e) {
+                telemetry.addData("%s exception", this.getName());
+            }
 
         }
     }

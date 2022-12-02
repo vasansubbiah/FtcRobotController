@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop2022;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -92,6 +93,8 @@ public class prototypesTeleop extends LinearOpMode {
             // Slide motor Code
             // ////////////////////////////////////////////////////////////////////////////////////
             curposRight = robot.slidemotorright.getCurrentPosition();
+            int SlidePos = 0;
+            int[] SlideLocation = {1600,2700,3800};
 
             //telemetry.addLine(String.format("\nIn SlideControl motor encoder position left = %d right = %d", curposLeft, curposRight));
             //telemetry.update();
@@ -103,9 +106,15 @@ public class prototypesTeleop extends LinearOpMode {
             if (lt > 0){
                 telemetry.addLine("LT is being pressed");
                 telemetry.addData("LT is being pressed", lt);
-                robot.slidemotorright.setPower(lt/2);
-                while (robot.getTime() <= 1) {
+
+                if (SlidePos < 3) {
+                    robot.slidemotorright.setTargetPosition(SlideLocation[SlidePos]);
+                    robot.slidemotorright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    SlidePos++;
+                    while (robot.slidemotorright.isBusy()) {
+                    }
                 }
+
             }
             else if (rt > 0){
                 telemetry.addLine("RT is being pressed");

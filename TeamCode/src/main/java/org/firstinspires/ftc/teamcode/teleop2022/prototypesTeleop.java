@@ -18,7 +18,8 @@ public class prototypesTeleop extends LinearOpMode {
     double Kp = 0;
     double Ki = 0;
     double Kd = 0;
-
+    int SlidePos = 0;
+    int loopCount = 0;
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
 
@@ -44,7 +45,7 @@ public class prototypesTeleop extends LinearOpMode {
         boolean linear_slide_up_right;
         double lt;
         double rt;
-        boolean down;
+        boolean up;
 
         int curposLeft;
         int curposRight;
@@ -86,39 +87,43 @@ public class prototypesTeleop extends LinearOpMode {
             protect = gamepad2.start;*/
             lt = (double) gamepad2.left_trigger;
             rt = (double) gamepad2.right_trigger;
-            down = gamepad2.b;
+            up = gamepad2.a;
 
 
             //////////////////////////////////////////////////////////////////////////////////////
             // Slide motor Code
             // ////////////////////////////////////////////////////////////////////////////////////
             curposRight = robot.slidemotorright.getCurrentPosition();
-            int SlidePos = 0;
+
             int[] SlideLocation = {1600,2700,3800};
 
             //telemetry.addLine(String.format("\nIn SlideControl motor encoder position left = %d right = %d", curposLeft, curposRight));
             //telemetry.update();
             // We need to move one motor from 0 to MAX and the other from 0 to -MAX
-            while (robot.slidemotorright.isBusy()){
-                curposRight = robot.slidemotorright.getCurrentPosition();
-                telemetry.addLine(String.format("\n slide motor encoder Left position = %d , Right position = %d",curposRight));
-            }
-            if (lt > 0){
-                telemetry.addLine("LT is being pressed");
+
+            if (up == true){
+                telemetry.addData("LT is being pressed **", SlidePos);
                 telemetry.addData("LT is being pressed", lt);
+                telemetry.addData("loop count: ", loopCount);
+                loopCount++;
 
                 if (SlidePos < 3) {
+                    telemetry.addData("SlidePos is: ", SlidePos);
                     robot.slidemotorright.setTargetPosition(SlideLocation[SlidePos]);
                     robot.slidemotorright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                     SlidePos++;
-                    while (robot.slidemotorright.isBusy()) {
-                    }
+                    timer.reset();
+                    while(robot.getTime() <=2) {}
+                     //while (robot.slidemotorright.isBusy()){
+                        //curposRight = robot.slidemotorright.getCurrentPosition();
+                        //telemetry.addLine(String.format("\n slide motor encoder Left position = %d , Right position = %d",curposRight));
+                    //}
                 }
 
-            }
-            else if (rt > 0){
+            } else if (rt > 0){
                 telemetry.addLine("RT is being pressed");
                 telemetry.addData("LT is being pressed", rt);
+                SlidePos = 0;
                 //robot.slidemotorleft.setPower(-0.5 * rt);
                 //robot.slidemotorright.setPower(-0.5 * rt);
                 while (robot.slidemotorright.getCurrentPosition() >= 50) {

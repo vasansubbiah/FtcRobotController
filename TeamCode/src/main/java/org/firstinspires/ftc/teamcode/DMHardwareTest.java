@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 // Importing all of the packages
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,8 +13,8 @@ public class DMHardwareTest {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-    public DcMotor slidemotorleft;
-    public DcMotor slidemotorright;
+    public DcMotorEx slidemotorleft;
+    public DcMotorEx slidemotorright;
     public Servo   LeftClaw;
     public Servo   RightClaw;
     double servo_power = 0.2;
@@ -36,8 +37,8 @@ public class DMHardwareTest {
         frontRight = hwMap.dcMotor.get("frntRT");
         backLeft = hwMap.dcMotor.get("bckLF");
         backRight = hwMap.dcMotor.get("bckRT");
-        slidemotorleft = hwMap.dcMotor.get("slidemotorleft");
-        slidemotorright = hwMap.dcMotor.get("slidemotorright");
+        //slidemotorleft = hwMap.get(DcMotorEx.class, "slidemotorleft");
+        slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
         LeftClaw  = hwMap.get(Servo.class,"left_hand");
      //   LeftClaw.setPosition(servo_power);
         RightClaw  = hwMap.get(Servo.class, "right_hand");
@@ -49,7 +50,7 @@ public class DMHardwareTest {
             backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             slidemotorright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            slidemotorleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //slidemotorleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
 

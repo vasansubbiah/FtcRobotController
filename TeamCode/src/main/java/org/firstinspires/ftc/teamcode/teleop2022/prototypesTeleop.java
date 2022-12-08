@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -31,7 +32,7 @@ public class prototypesTeleop extends LinearOpMode {
 
         timer.reset();
 
-        double output = (error + Kp) + (derivative + Kp) + (integralSum +Ki);
+        double output = (error + Kp) + (derivative + Kd) + (integralSum +Ki);
         return output;
     }
 
@@ -75,6 +76,9 @@ public class prototypesTeleop extends LinearOpMode {
 
         driveThread.start();
 
+        robot.slidemotorright.setDirection(DcMotor.Direction.REVERSE);
+        robot.slidemotorright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             /*linear_slide_up = gamepad2.dpad_up;
@@ -95,13 +99,13 @@ public class prototypesTeleop extends LinearOpMode {
             // ////////////////////////////////////////////////////////////////////////////////////
             curposRight = robot.slidemotorright.getCurrentPosition();
 
-            int[] SlideLocation = {1600,2700,3800};
+            int[] SlideLocation ={1650,2810,4000} ;
 
             //telemetry.addLine(String.format("\nIn SlideControl motor encoder position left = %d right = %d", curposLeft, curposRight));
             //telemetry.update();
             // We need to move one motor from 0 to MAX and the other from 0 to -MAX
 
-            if (up == true){
+            if (gamepad2.left_trigger > 0){
                 telemetry.addData("LT is being pressed **", SlidePos);
                 telemetry.addData("LT is being pressed", lt);
                 telemetry.addData("loop count: ", loopCount);
@@ -110,29 +114,28 @@ public class prototypesTeleop extends LinearOpMode {
                 if (SlidePos < 3) {
                     telemetry.addData("SlidePos is: ", SlidePos);
                     robot.slidemotorright.setTargetPosition(SlideLocation[SlidePos]);
+                    robot.slidemotorright.setPower(0.9);
                     robot.slidemotorright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    while (robot.slidemotorright.isBusy()) {
+                    }
+                    //robot.slidemotorright.setPower(0.0);
                     SlidePos++;
-                    timer.reset();
-                    while(robot.getTime() <=2) {}
-                     //while (robot.slidemotorright.isBusy()){
-                        //curposRight = robot.slidemotorright.getCurrentPosition();
-                        //telemetry.addLine(String.format("\n slide motor encoder Left position = %d , Right position = %d",curposRight));
-                    //}
                 }
 
-            } else if (rt > 0){
+            } else if (gamepad2.right_trigger > 0){
                 telemetry.addLine("RT is being pressed");
                 telemetry.addData("LT is being pressed", rt);
                 SlidePos = 0;
-                //robot.slidemotorleft.setPower(-0.5 * rt);
-                //robot.slidemotorright.setPower(-0.5 * rt);
-                while (robot.slidemotorright.getCurrentPosition() >= 50) {
-                    robot.slidemotorright.setPower(PIDcontrol(-curposRight,robot.slidemotorright.getCurrentPosition()));
+                robot.slidemotorright.setTargetPosition(0);
+                robot.slidemotorright.setPower(0.9);
+                robot.slidemotorright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                while (robot.slidemotorright.isBusy()) {
                 }
+                robot.slidemotorright.setPower(0.0);
             }
             else {
                 telemetry.addLine("nothing is being pressed");
-                robot.slidemotorright.setPower(0.0);
+                //robot.slidemotorright.setPower(0.0);
             }
             // Use gamepad2 left & right Bumpers to open and close the claw
 
@@ -158,7 +161,8 @@ public class prototypesTeleop extends LinearOpMode {
 
             // Send telemetry message to signify robot running;
 
-            telemetry.addData("Motor Encoder right = %d", curposRight);
+            telemetry.addData("Motor Encoder right = %d", robot.slidemotorright.getCurrentPosition());
+            //telemetry.addData("initital position = %d", xyz);
             //telemetry.addData("left_clawoffset",  "Offset = %.2f", clawOffsetL);
             //telemetry.addData("left_position","offset = %.6f", robot.LeftClaw.getPosition());
             //telemetry.addData("right_clawoffset",  "Offset = %.3f", clawOffsetR);

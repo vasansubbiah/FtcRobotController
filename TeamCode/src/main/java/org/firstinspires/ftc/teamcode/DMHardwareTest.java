@@ -40,9 +40,9 @@ public class DMHardwareTest {
         //slidemotorleft = hwMap.get(DcMotorEx.class, "slidemotorleft");
         slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
         LeftClaw  = hwMap.get(Servo.class,"left_hand");
-     //   LeftClaw.setPosition(servo_power);
+        LeftClaw.setPosition(servo_power);
         RightClaw  = hwMap.get(Servo.class, "right_hand");
-       // RightClaw.setPosition(servo_power);
+        RightClaw.setPosition(servo_power);
 
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

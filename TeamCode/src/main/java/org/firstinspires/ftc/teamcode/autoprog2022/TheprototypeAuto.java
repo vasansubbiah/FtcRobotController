@@ -194,17 +194,11 @@ public class TheprototypeAuto extends LinearOpMode
 
     public void SlideUp(int ticks, double speed) {
         slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         slideRight.setTargetPosition(ticks);
-
         slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         slideRight.setPower(speed);
-
         while (slideRight.isBusy()) {
-
         }
-        slideRight.setPower(0.0);
     }
 
     public void SlideDown(int ticks, double speed) {
@@ -228,8 +222,8 @@ public class TheprototypeAuto extends LinearOpMode
             telemetry.update();
 
             EncoderDriveF(50,0.3);
-            EncoderDriveL(1200,0.3);
-            EncoderDriveF(1200,0.3);
+            EncoderDriveL(1700,0.3);
+            EncoderDriveF(1000,0.3);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
             telemetry.addLine(String.format("\ninside if tag one"));
@@ -250,6 +244,20 @@ public class TheprototypeAuto extends LinearOpMode
         }
     }
 
+    public void openClaw() {
+        clawOffsetL = 0.2;
+        clawOffsetR = 0.7;
+        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
+        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+        LeftClaw.setPosition(clawOffsetL);
+        RightClaw.setPosition(clawOffsetR);
+        EncoderDriveF(50,0.3);
+        EncoderDriveL(1700,0.3);
+        EncoderDriveF(1000,0.3);
+        SlideUp(4000,0.5);
+        EncoderDriveF(150,0.3);
+    }
+
     public void PreLoad() {
         clawOffsetL = 0.7;
         clawOffsetR = 0.2;
@@ -257,8 +265,11 @@ public class TheprototypeAuto extends LinearOpMode
         clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
         LeftClaw.setPosition(clawOffsetL);
         RightClaw.setPosition(clawOffsetR);
-
-        SlideUp(100,0.5);
+        EncoderDriveF(50,0.3);
+        EncoderDriveL(1700,0.3);
+        EncoderDriveF(1000,0.3);
+        SlideUp(4000,0.5);
+        EncoderDriveF(150,0.3);
     }
 
 

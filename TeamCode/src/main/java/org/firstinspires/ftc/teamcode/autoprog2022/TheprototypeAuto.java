@@ -24,8 +24,11 @@ package org.firstinspires.ftc.teamcode.autoprog2022;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.sleeveDetect.AprilTagDetectionPipeline;
@@ -73,6 +76,10 @@ public class TheprototypeAuto extends LinearOpMode
     public DcMotor slideRight;
     public Servo LeftClaw;
     public Servo RightClaw;
+
+    double clawOffsetL = 0.2;
+    double clawOffsetR = 0.7;
+
 
     AprilTagDetection tagOfInterest = null;
     public ElapsedTime timer = new ElapsedTime();
@@ -186,31 +193,74 @@ public class TheprototypeAuto extends LinearOpMode
     }
 
     public void SlideUp(int ticks, double speed) {
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeft.setTargetPosition(ticks);
-        frontRight.setTargetPosition(ticks);
-        backLeft.setTargetPosition(-ticks);
-        backRight.setTargetPosition(-ticks);
+        slideRight.setTargetPosition(ticks);
 
-        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setPower(speed);
-        frontRight.setPower(speed);
-        backLeft.setPower(speed);
-        backRight.setPower(speed);
+        slideRight.setPower(speed);
 
-        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+        while (slideRight.isBusy()) {
 
         }
-        setPowerOfAllMotorsTo(0.0);
+        slideRight.setPower(0.0);
     }
+
+    public void SlideDown(int ticks, double speed) {
+        slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        slideRight.setTargetPosition(-ticks);
+
+        slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        slideRight.setPower(-speed);
+
+        while (slideRight.isBusy()) {
+
+        }
+        slideRight.setPower(0.0);
+    }
+    public void Park() {
+        if (tagOfInterest.id == ID_TAG_OF_INTEREST_ZERO) {
+            telemetry.addLine(String.format("\ninside if tag one"));
+            telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+            telemetry.update();
+
+            EncoderDriveF(50,0.3);
+            EncoderDriveL(1200,0.3);
+            EncoderDriveF(1200,0.3);
+
+        } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
+            telemetry.addLine(String.format("\ninside if tag one"));
+            telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+            telemetry.update();
+
+            EncoderDriveF(2200,0.3);
+            EncoderDriveB(900,0.3);
+
+        } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
+            telemetry.addLine(String.format("\ninside if tag one"));
+            telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
+            telemetry.update();
+
+            EncoderDriveF(50,0.3);
+            EncoderDriveR(1200,0.3);
+            EncoderDriveF(1200,0.3);
+        }
+    }
+
+    public void PreLoad() {
+        clawOffsetL = 0.7;
+        clawOffsetR = 0.2;
+        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
+        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+        LeftClaw.setPosition(clawOffsetL);
+        RightClaw.setPosition(clawOffsetR);
+
+        SlideUp(100,0.5);
+    }
+
 
     @Override
     public void runOpMode()
@@ -223,7 +273,11 @@ public class TheprototypeAuto extends LinearOpMode
         frontRight = hardwareMap.dcMotor.get("frntRT");
         backLeft = hardwareMap.dcMotor.get("bckLF");
         backRight = hardwareMap.dcMotor.get("bckRT");
+        LeftClaw  = hardwareMap.get(Servo.class,"left_hand");
+        RightClaw  = hardwareMap.get(Servo.class, "right_hand");
+        slideRight = hardwareMap.dcMotor.get("slidemotorright");
 
+        slideRight.setDirection(DcMotorSimple.Direction.REVERSE);
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -334,36 +388,8 @@ public class TheprototypeAuto extends LinearOpMode
             return;
         }
         else {
-
-            if (tagOfInterest.id == ID_TAG_OF_INTEREST_ZERO) {
-                telemetry.addLine(String.format("\ninside if tag one"));
-                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
-                telemetry.update();
-
-                LeftClaw.setPosition(0.2);
-                RightClaw.setPosition(0.1);
-
-                EncoderDriveF(50,0.3);
-                EncoderDriveL(1200,0.3);
-                EncoderDriveF(1200,0.3);
-
-            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
-                telemetry.addLine(String.format("\ninside if tag one"));
-                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
-                telemetry.update();
-
-                EncoderDriveF(2200,0.3);
-                EncoderDriveB(900,0.3);
-
-            } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
-                telemetry.addLine(String.format("\ninside if tag one"));
-                telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
-                telemetry.update();
-
-                EncoderDriveF(50,0.3);
-                EncoderDriveR(1200,0.3);
-                EncoderDriveF(1200,0.3);
-            }
+            PreLoad();
+            Park();
         }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         //while (opModeIsActive()) {sleep(20);}

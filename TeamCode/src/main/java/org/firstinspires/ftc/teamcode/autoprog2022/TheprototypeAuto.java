@@ -81,6 +81,7 @@ public class TheprototypeAuto extends LinearOpMode
     double clawOffsetR = 0.7;
 
 
+
     AprilTagDetection tagOfInterest = null;
     public ElapsedTime timer = new ElapsedTime();
 
@@ -222,7 +223,7 @@ public class TheprototypeAuto extends LinearOpMode
             telemetry.update();
 
             EncoderDriveF(50,0.3);
-            EncoderDriveL(1700,0.3);
+            EncoderDriveL(1200,0.3);
             EncoderDriveF(1000,0.3);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
@@ -240,7 +241,7 @@ public class TheprototypeAuto extends LinearOpMode
 
             EncoderDriveF(50,0.3);
             EncoderDriveR(1200,0.3);
-            EncoderDriveF(1200,0.3);
+            EncoderDriveF(1000,0.3);
         }
     }
 
@@ -251,11 +252,19 @@ public class TheprototypeAuto extends LinearOpMode
         clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
         LeftClaw.setPosition(clawOffsetL);
         RightClaw.setPosition(clawOffsetR);
-        EncoderDriveF(50,0.3);
-        EncoderDriveL(1700,0.3);
-        EncoderDriveF(1000,0.3);
-        SlideUp(4000,0.5);
-        EncoderDriveF(150,0.3);
+    }
+
+    public void closeClaw() {
+        clawOffsetL = 0.7;
+        clawOffsetR = 0.2;
+        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
+        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+        LeftClaw.setPosition(clawOffsetL);
+        RightClaw.setPosition(clawOffsetR);
+    }
+
+    public double getTime() {
+        return timer.time();
     }
 
     public void PreLoad() {
@@ -266,10 +275,17 @@ public class TheprototypeAuto extends LinearOpMode
         LeftClaw.setPosition(clawOffsetL);
         RightClaw.setPosition(clawOffsetR);
         EncoderDriveF(50,0.3);
-        EncoderDriveL(1700,0.3);
-        EncoderDriveF(1000,0.3);
-        SlideUp(4000,0.5);
-        EncoderDriveF(150,0.3);
+        SlideUp(150,0.5);
+        EncoderDriveL(1920,0.3);
+        EncoderDriveF(925,0.3);
+        SlideUp(3850,0.5);
+        EncoderDriveF(220,0.1);
+        sleep(1000);
+        openClaw();
+        EncoderDriveB(1270,0.3);
+        closeClaw();
+        SlideDown(4000,0.5);
+        EncoderDriveR(1920,0.3);
     }
 
 

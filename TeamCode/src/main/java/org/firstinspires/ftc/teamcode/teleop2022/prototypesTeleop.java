@@ -59,8 +59,8 @@ public class prototypesTeleop extends LinearOpMode {
 
         boolean ClawOn=false;
         boolean protect = false;
-        double clawOffsetL = 0.2;
-        double clawOffsetR = 0.7;
+        double clawOffsetL = 0.7;
+        double clawOffsetR = 0.2;
         double servo_power = 0.5;
         double CLAW_SPEED = 0.09;                 // sets rate to move servo
         double  MIN_POSITION = 0.2;
@@ -200,10 +200,10 @@ public class prototypesTeleop extends LinearOpMode {
                     double frontRightPower = (-y - x - rx) / denominator;
                     double backRightPower = (-y + x - rx) / denominator;
 
-                    robot.frontLeft.setPower(frontLeftPower/2.0);
-                    robot.backLeft.setPower(backLeftPower/2.0);
-                    robot.frontRight.setPower(frontRightPower/2.0);
-                    robot.backRight.setPower(backRightPower/2.0);
+                    robot.frontLeft.setPower(frontLeftPower * 0.60);
+                    robot.backLeft.setPower(backLeftPower * 0.60);
+                    robot.frontRight.setPower(frontRightPower * 0.60);
+                    robot.backRight.setPower(backRightPower * 0.60);
 
                     idle();
                 }

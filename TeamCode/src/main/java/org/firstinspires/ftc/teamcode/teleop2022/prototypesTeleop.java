@@ -59,14 +59,14 @@ public class prototypesTeleop extends LinearOpMode {
 
         boolean ClawOn=false;
         boolean protect = false;
-        double clawOffsetL = 0.7;
+        double clawOffsetL = 0.5;
         double clawOffsetR = 0.2;
         double servo_power = 0.5;
         double CLAW_SPEED = 0.09;                 // sets rate to move servo
         double  MIN_POSITION = 0.2;
         double MIN_POSITIONR=0.2;
-        double MAX_POSITION = 0.7;
-        double MAX_POSITIONL = 0.7;
+        double MAX_POSITION = 0.5;
+        double MAX_POSITIONL = 0.5;
 
         Thread  driveThread = new DriveThread();
 
@@ -143,18 +143,18 @@ public class prototypesTeleop extends LinearOpMode {
             {
                 //clawOffsetL -= CLAW_SPEED;
                // clawOffsetR += CLAW_SPEED;
-                clawOffsetL = 0.7;//0.2 to open and 0.7 to close left claw
-                clawOffsetR = 0.2;//0.2 to close and 0.7 to open
+                clawOffsetL = 0.5;//0.5 to close left claw
+                clawOffsetR = 0.2;//0.2 to close right claw
             }
             if (gamepad2.left_bumper && clawOffsetL<=MAX_POSITIONL && clawOffsetR>=MIN_POSITIONR)
             {
                // clawOffsetL += CLAW_SPEED;
                // clawOffsetR -= CLAW_SPEED;
-                clawOffsetL = 0.2; //0.2 to open and 0.7 to close left claw
-                clawOffsetR = 0.7; // 0.2 to close and 0.7 to open right claw
+                clawOffsetL = 0.3; //0.3 to open left claw
+                clawOffsetR = 0.4; // 0.4 to close  right claw
             }
-            clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
-            clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+            clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
+            clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
             robot.LeftClaw.setPosition(clawOffsetL);
             robot.RightClaw.setPosition(clawOffsetR);
 

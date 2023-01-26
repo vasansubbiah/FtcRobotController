@@ -78,7 +78,7 @@ public class TheprototypeAuto extends LinearOpMode
     public Servo RightClaw;
 
     double clawOffsetL = 0.2;
-    double clawOffsetR = 0.7;
+    double clawOffsetR = 0.5;
 
 
 
@@ -300,19 +300,19 @@ public class TheprototypeAuto extends LinearOpMode
     }
 
     public void openClaw() {
-        clawOffsetL = 0.2;
-        clawOffsetR = 0.7;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+        clawOffsetL = 0.3;
+        clawOffsetR = 0.4;
+        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
+        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
         LeftClaw.setPosition(clawOffsetL);
         RightClaw.setPosition(clawOffsetR);
     }
 
     public void closeClaw() {
-        clawOffsetL = 0.7;
+        clawOffsetL = 0.5;
         clawOffsetR = 0.2;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.7);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.7);
+        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
+        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
         LeftClaw.setPosition(clawOffsetL);
         RightClaw.setPosition(clawOffsetR);
     }

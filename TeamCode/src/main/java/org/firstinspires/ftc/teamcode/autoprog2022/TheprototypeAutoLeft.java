@@ -333,6 +333,7 @@ public class TheprototypeAutoLeft extends LinearOpMode
         EncoderDriveL(460,0.3);
         EncoderDriveF(120,0.2);
         sleep(500);
+        SlideDown(150, 0.1);
         openClaw();
         sleep(500);
         EncoderDriveB(120,0.2);

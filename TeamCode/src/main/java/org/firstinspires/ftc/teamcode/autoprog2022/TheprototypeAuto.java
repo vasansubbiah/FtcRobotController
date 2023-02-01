@@ -258,15 +258,10 @@ public class TheprototypeAuto extends LinearOpMode
 
     public void SlideDown(int ticks, double speed) {
         slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         slideRight.setTargetPosition(-ticks);
-
         slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         slideRight.setPower(-speed);
-
         while (slideRight.isBusy()) {
-
         }
         slideRight.setPower(0.0);
     }
@@ -331,16 +326,17 @@ public class TheprototypeAuto extends LinearOpMode
         EncoderTurnL(1075,0.3);
         SlideUp(3850,0.5);
         EncoderDriveR(435,0.3);
-        EncoderDriveF(80,0.2);
+        EncoderDriveF(120,0.2);
         sleep(500);
+        SlideDown(150, 0.1);
         openClaw();
         sleep(500);
-        EncoderDriveB(80,0.2);
+        EncoderDriveB(120,0.2);
         EncoderDriveL(435,0.3);
         EncoderTurnR(1075,0.3);
         EncoderDriveB(1270,0.3);
         closeClaw();
-        SlideDown(4000,0.5);
+        SlideDown(3850,0.5);
         EncoderDriveR(1250,0.3);
     }
 

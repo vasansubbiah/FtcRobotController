@@ -36,6 +36,15 @@ public class prototypesTeleop extends LinearOpMode {
         return output;
     }
 
+    public void SlideDown(int ticks, double speed) {
+        robot.slidemotorright.setTargetPosition(ticks);
+        robot.slidemotorright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.slidemotorright.setPower(-speed);
+        while (robot.slidemotorright.isBusy()) {
+        }
+        robot.slidemotorright.setPower(0.0);
+    }
+
     @Override
     public void runOpMode() {
         boolean linear_slide_up;
@@ -150,6 +159,19 @@ public class prototypesTeleop extends LinearOpMode {
             {
                // clawOffsetL += CLAW_SPEED;
                // clawOffsetR -= CLAW_SPEED;
+                if (SlidePos == 1) {
+                    SlideDown(1450, 0.5);
+                    while (robot.slidemotorright.isBusy()) {
+                    }
+                } else if (SlidePos == 2) {
+                    SlideDown(2610, 0.5);
+                    while (robot.slidemotorright.isBusy()) {
+                    }
+                } else if (SlidePos == 3) {
+                    SlideDown(3800, 0.5);
+                    while (robot.slidemotorright.isBusy()) {
+                    }
+                }
                 clawOffsetL = 0.3; //0.3 to open left claw
                 clawOffsetR = 0.4; // 0.4 to close  right claw
             }
@@ -200,10 +222,10 @@ public class prototypesTeleop extends LinearOpMode {
                     double frontRightPower = (-y - x - rx) / denominator;
                     double backRightPower = (-y + x - rx) / denominator;
 
-                    robot.frontLeft.setPower(frontLeftPower * 0.60);
-                    robot.backLeft.setPower(backLeftPower * 0.60);
-                    robot.frontRight.setPower(frontRightPower * 0.60);
-                    robot.backRight.setPower(backRightPower * 0.60);
+                    robot.frontLeft.setPower(frontLeftPower * 0.65);
+                    robot.backLeft.setPower(backLeftPower * 0.65);
+                    robot.frontRight.setPower(frontRightPower * 0.65);
+                    robot.backRight.setPower(backRightPower * 0.65 );
 
                     idle();
                 }

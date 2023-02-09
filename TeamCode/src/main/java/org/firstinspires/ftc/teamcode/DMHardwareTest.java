@@ -38,10 +38,10 @@ public class DMHardwareTest {
         backLeft = hwMap.dcMotor.get("bckLF");
         backRight = hwMap.dcMotor.get("bckRT");
         //slidemotorleft = hwMap.get(DcMotorEx.class, "slidemotorleft");
-        slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
-        LeftClaw  = hwMap.get(Servo.class,"left_hand");
+        //slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
+        //LeftClaw  = hwMap.get(Servo.class,"left_hand");
         LeftClaw.setPosition(servo_powerl);
-        RightClaw  = hwMap.get(Servo.class, "right_hand");
+        //RightClaw  = hwMap.get(Servo.class, "right_hand");
         RightClaw.setPosition(servo_powerr);
 
         if (bk) {

@@ -75,10 +75,8 @@ public class TheprototypeAutoLeft extends LinearOpMode
     public DcMotor slideLeft;
     public DcMotor slideRight;
     public Servo LeftClaw;
-    public Servo RightClaw;
 
     double clawOffsetL = 0.2;
-    double clawOffsetR = 0.5;
 
 
 
@@ -258,17 +256,11 @@ public class TheprototypeAutoLeft extends LinearOpMode
 
     public void SlideDown(int ticks, double speed) {
         slideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         slideRight.setTargetPosition(-ticks);
-
         slideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         slideRight.setPower(-speed);
-
         while (slideRight.isBusy()) {
-
         }
-        slideRight.setPower(0.0);
     }
     public void Park() {
         if (tagOfInterest.id == ID_TAG_OF_INTEREST_ZERO) {
@@ -300,21 +292,15 @@ public class TheprototypeAutoLeft extends LinearOpMode
     }
 
     public void openClaw() {
-        clawOffsetL = 0.3;
-        clawOffsetR = 0.4;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
+        clawOffsetL = 0.5;
+        clawOffsetL = Range.clip(clawOffsetL, 0.5, 0.9);
         LeftClaw.setPosition(clawOffsetL);
-        RightClaw.setPosition(clawOffsetR);
     }
 
     public void closeClaw() {
-        clawOffsetL = 0.5;
-        clawOffsetR = 0.2;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
+        clawOffsetL = 0.9;
+        clawOffsetL = Range.clip(clawOffsetL, 0.5, 0.9);
         LeftClaw.setPosition(clawOffsetL);
-        RightClaw.setPosition(clawOffsetR);
     }
 
     public double getTime() {
@@ -331,17 +317,17 @@ public class TheprototypeAutoLeft extends LinearOpMode
         EncoderTurnR(1075,0.3);
         SlideUp(3850,0.5);
         EncoderDriveL(460,0.3);
-        EncoderDriveF(120,0.2);
+        EncoderDriveF(170,0.2);
         sleep(500);
-        SlideDown(150, 0.1);
+        SlideDown(200, 0.1);
         openClaw();
         sleep(500);
-        EncoderDriveB(120,0.2);
+        EncoderDriveB(170,0.2);
         EncoderDriveR(450,0.3);
         EncoderTurnL(1075,0.3);
         EncoderDriveB(1270,0.3);
         closeClaw();
-        SlideDown(4000,0.5);
+        SlideDown(3800,0.5);
         EncoderDriveL(1250,0.3);
     }
 
@@ -357,8 +343,7 @@ public class TheprototypeAutoLeft extends LinearOpMode
         frontRight = hardwareMap.dcMotor.get("frntRT");
         backLeft = hardwareMap.dcMotor.get("bckLF");
         backRight = hardwareMap.dcMotor.get("bckRT");
-        LeftClaw  = hardwareMap.get(Servo.class,"left_hand");
-        RightClaw  = hardwareMap.get(Servo.class, "right_hand");
+        LeftClaw  = hardwareMap.get(Servo.class,"Claw");
         slideRight = hardwareMap.dcMotor.get("slidemotorright");
 
         slideRight.setDirection(DcMotorSimple.Direction.REVERSE);

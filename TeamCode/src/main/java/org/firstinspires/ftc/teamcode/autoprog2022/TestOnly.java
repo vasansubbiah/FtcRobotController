@@ -57,9 +57,9 @@ public class TestOnly extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeft.setTargetPosition(ticks);
+        frontLeft.setTargetPosition(-ticks);
         frontRight.setTargetPosition(ticks);
-        backLeft.setTargetPosition(ticks);
+        backLeft.setTargetPosition(-ticks);
         backRight.setTargetPosition(ticks);
 
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -228,7 +228,10 @@ public class TestOnly extends LinearOpMode
         backRight = hardwareMap.dcMotor.get("bckRT");
         while (!isStarted() && !isStopRequested()) {
             //setPowerOfAllMotorsTo(0.3);
-            EncoderDriveF(5000,0.1);
+            for(int l = 0; l < 100; l++) {
+                EncoderDriveF(500, 0.3);
+                EncoderDriveB(500, 0.3);
+            }
             //setPowerOfAllMotorsTo(0.0);
         }
     }

@@ -8,17 +8,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 public class DMHardwareTest {
 
-    // Instantiating the hardware classes
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-    public DcMotorEx slidemotorleft;
     public DcMotorEx slidemotorright;
-    public Servo   LeftClaw;
-    public Servo   RightClaw;
-    double servo_powerl = 0.5;
-    double servo_powerr = 0.2;
+    public Servo Claw;
+    double servo_power = 0.9;
     public boolean runThisWithEncoders;
 
 
@@ -37,12 +33,9 @@ public class DMHardwareTest {
         frontRight = hwMap.dcMotor.get("frntRT");
         backLeft = hwMap.dcMotor.get("bckLF");
         backRight = hwMap.dcMotor.get("bckRT");
-        //slidemotorleft = hwMap.get(DcMotorEx.class, "slidemotorleft");
-        //slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
-        //LeftClaw  = hwMap.get(Servo.class,"left_hand");
-        LeftClaw.setPosition(servo_powerl);
-        //RightClaw  = hwMap.get(Servo.class, "right_hand");
-        RightClaw.setPosition(servo_powerr);
+        slidemotorright = hwMap.get(DcMotorEx.class,"slidemotorright");
+        Claw  = hwMap.get(Servo.class,"Claw");
+        Claw.setPosition(servo_power);
 
         if (bk) {
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

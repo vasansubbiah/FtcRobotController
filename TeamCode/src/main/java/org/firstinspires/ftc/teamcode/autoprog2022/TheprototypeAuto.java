@@ -263,7 +263,6 @@ public class TheprototypeAuto extends LinearOpMode
         slideRight.setPower(-speed);
         while (slideRight.isBusy()) {
         }
-        slideRight.setPower(0.0);
     }
     public void Park() {
         if (tagOfInterest.id == ID_TAG_OF_INTEREST_ZERO) {

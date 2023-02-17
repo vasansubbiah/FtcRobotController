@@ -78,7 +78,6 @@ public class TheprototypeAuto extends LinearOpMode
     public Servo RightClaw;
 
     double clawOffsetL = 0.2;
-    double clawOffsetR = 0.5;
 
 
 
@@ -145,7 +144,7 @@ public class TheprototypeAuto extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeft.setTargetPosition(ticks);
+        frontLeft. setTargetPosition(ticks);
         frontRight.setTargetPosition(ticks);
         backLeft.setTargetPosition(-ticks);
         backRight.setTargetPosition(-ticks);
@@ -270,45 +269,39 @@ public class TheprototypeAuto extends LinearOpMode
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(50,0.3);
-            EncoderDriveL(1200,0.3);
-            EncoderDriveF(1000,0.3);
+            EncoderDriveF(50,0.5);
+            EncoderDriveL(1200,0.5);
+            EncoderDriveF(1000,0.5);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
             telemetry.addLine(String.format("\ninside if tag one"));
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(2200,0.3);
-            EncoderDriveB(900,0.3);
+            EncoderDriveF(2200,0.5);
+            EncoderDriveB(900,0.5);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
             telemetry.addLine(String.format("\ninside if tag one"));
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(50,0.3);
-            EncoderDriveR(1200,0.3);
-            EncoderDriveF(1000,0.3);
+            EncoderDriveF(50,0.5);
+            EncoderDriveR(1200,0.5);
+            EncoderDriveF(1000,0.5);
         }
     }
 
     public void openClaw() {
-        clawOffsetL = 0.3;
-        clawOffsetR = 0.4;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
+        clawOffsetL = 0.5;
+        clawOffsetL = Range.clip(clawOffsetL, 0.5, 0.9);
         LeftClaw.setPosition(clawOffsetL);
-        RightClaw.setPosition(clawOffsetR);
     }
 
     public void closeClaw() {
-        clawOffsetL = 0.5;
-        clawOffsetR = 0.2;
-        clawOffsetL = Range.clip(clawOffsetL, 0.2, 0.5);
-        clawOffsetR = Range.clip(clawOffsetR, 0.2, 0.5);
+        clawOffsetL = 0.9;
+        clawOffsetL = Range.clip(clawOffsetL, 0.5, 0.9);
         LeftClaw.setPosition(clawOffsetL);
-        RightClaw.setPosition(clawOffsetR);
     }
 
     public double getTime() {
@@ -324,14 +317,14 @@ public class TheprototypeAuto extends LinearOpMode
         sleep(250);
         EncoderTurnL(1075,0.3);
         SlideUp(3850,0.5);
-        EncoderDriveR(435,0.3);
-        EncoderDriveF(120,0.2);
+        EncoderDriveR(410,0.3);
+        EncoderDriveF(260,0.2);
         sleep(500);
         SlideDown(150, 0.1);
         openClaw();
         sleep(500);
-        EncoderDriveB(120,0.2);
-        EncoderDriveL(435,0.3);
+        EncoderDriveB(260,0.2);
+        EncoderDriveL(410,0.3);
         EncoderTurnR(1075,0.3);
         EncoderDriveB(1270,0.3);
         closeClaw();
@@ -351,8 +344,7 @@ public class TheprototypeAuto extends LinearOpMode
         frontRight = hardwareMap.dcMotor.get("frntRT");
         backLeft = hardwareMap.dcMotor.get("bckLF");
         backRight = hardwareMap.dcMotor.get("bckRT");
-        LeftClaw  = hardwareMap.get(Servo.class,"left_hand");
-        RightClaw  = hardwareMap.get(Servo.class, "right_hand");
+        LeftClaw  = hardwareMap.get(Servo.class,"Claw");
         slideRight = hardwareMap.dcMotor.get("slidemotorright");
 
         slideRight.setDirection(DcMotorSimple.Direction.REVERSE);

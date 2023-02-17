@@ -268,26 +268,26 @@ public class TheprototypeAutoLeft extends LinearOpMode
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(50,0.3);
-            EncoderDriveL(1200,0.3);
-            EncoderDriveF(1000,0.3);
+            EncoderDriveF(50,0.5);
+            EncoderDriveL(1200,0.5);
+            EncoderDriveF(1000,0.5);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_ONE) {
             telemetry.addLine(String.format("\ninside if tag one"));
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(2200,0.3);
-            EncoderDriveB(900,0.3);
+            EncoderDriveF(2200,0.5);
+            EncoderDriveB(900,0.5);
 
         } else if (tagOfInterest.id == ID_TAG_OF_INTEREST_TWO) {
             telemetry.addLine(String.format("\ninside if tag one"));
             telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
             telemetry.update();
 
-            EncoderDriveF(50,0.3);
-            EncoderDriveR(1200,0.3);
-            EncoderDriveF(1000,0.3);
+            EncoderDriveF(50,0.5);
+            EncoderDriveR(1200,0.5);
+            EncoderDriveF(1100,0.5);
         }
     }
 
@@ -316,14 +316,14 @@ public class TheprototypeAutoLeft extends LinearOpMode
         sleep(250);
         EncoderTurnR(1075,0.3);
         SlideUp(3850,0.5);
-        EncoderDriveL(460,0.3);
-        EncoderDriveF(170,0.2);
+        EncoderDriveL(500,0.3);
+        EncoderDriveF(230,0.2);
         sleep(500);
         SlideDown(200, 0.1);
         openClaw();
         sleep(500);
-        EncoderDriveB(170,0.2);
-        EncoderDriveR(450,0.3);
+        EncoderDriveB(230,0.2);
+        EncoderDriveR(500,0.3);
         EncoderTurnL(1075,0.3);
         EncoderDriveB(1270,0.3);
         closeClaw();
